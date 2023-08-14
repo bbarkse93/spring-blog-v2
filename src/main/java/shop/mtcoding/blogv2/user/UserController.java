@@ -2,7 +2,6 @@ package shop.mtcoding.blogv2.user;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,14 +57,20 @@ public class UserController {
     }
 
     @PostMapping("/user/update")
-    public String update(UserRequest.UpdateDTO updateDTO) {
+    public @ResponseBody String update(UserRequest.UpdateDTO updateDTO) {
         // 1. 회원수정 (Service)
         // 2. 세션 동기화
         User sessionUser = (User) session.getAttribute("sessionUser");
         User user = userService.회원수정(updateDTO, sessionUser.getId());
         session.setAttribute("sessionUser", user);
-        return "redirect:/";
 
+        return Script.href("/user/updateForm", "회원정보가 수정되었습니다.");
+    }
+
+    @GetMapping("/logout")
+    public String logout() {
+        session.invalidate();
+        return "redirect:/";
     }
 
 }

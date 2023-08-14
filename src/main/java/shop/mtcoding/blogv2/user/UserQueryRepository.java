@@ -1,7 +1,6 @@
 package shop.mtcoding.blogv2.user;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
