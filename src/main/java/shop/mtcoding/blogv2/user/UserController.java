@@ -1,5 +1,6 @@
 package shop.mtcoding.blogv2.user;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
@@ -47,4 +48,24 @@ public class UserController {
         session.setAttribute("sessionUser", sessionUser);
         return Script.href("/");
     }
+
+    @GetMapping("/user/updateForm")
+    public String updateForm(HttpServletRequest request) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        User user = userService.회원정보보기(sessionUser.getId());
+        request.setAttribute("user", user);
+        return "user/updateForm";
+    }
+
+    @PostMapping("/user/update")
+    public String update(UserRequest.UpdateDTO updateDTO) {
+        // 1. 회원수정 (Service)
+        // 2. 세션 동기화
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        User user = userService.회원수정(updateDTO, sessionUser.getId());
+        session.setAttribute("sessionUser", user);
+        return "redirect:/";
+
+    }
+
 }

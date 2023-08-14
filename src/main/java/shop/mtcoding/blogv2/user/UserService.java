@@ -1,5 +1,7 @@
 package shop.mtcoding.blogv2.user;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import shop.mtcoding.blogv2.user.UserRequest.JoinDTO;
 import shop.mtcoding.blogv2.user.UserRequest.LoginDTO;
+import shop.mtcoding.blogv2.user.UserRequest.UpdateDTO;
 
 // Service의 책임
 // 핵심로직 처리, 트랜잭션 관리, 예외 처리
@@ -50,5 +53,22 @@ public class UserService {
         // }
         // }
     }
+
+    public User 회원정보보기(Integer id) {
+
+        return userRepository.findById(id).get();
+    }
+
+    @Transactional
+    public User 회원수정(UpdateDTO updateDTO, Integer id) {
+
+        // 1. 조회 (영속화)
+        User user = userRepository.findById(id).get();
+
+        // 2. 변경
+        user.setPassword(updateDTO.getPassword());
+
+        return user;
+    } // 3. Flush
 
 }
