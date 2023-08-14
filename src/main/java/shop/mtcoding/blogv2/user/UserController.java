@@ -1,17 +1,24 @@
 package shop.mtcoding.blogv2.user;
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import shop.mtcoding.blogv2._core.util.Script;
 
 @Controller
 public class UserController {
 
     @Autowired // DI(의존성 주입)
     private UserService userService;
+
+    @Autowired
+    private HttpSession session; // 서버측 저장소
 
     // C - V
     @GetMapping("/joinForm")
@@ -26,4 +33,18 @@ public class UserController {
         return "user/loginForm"; // persist 초기화
     }
 
+    @GetMapping("/loginForm")
+    public String loginForm() {
+        return "user/loginForm";
+    }
+
+    @PostMapping("/login")
+    public @ResponseBody String login(UserRequest.LoginDTO loginDTO) {
+        User sessionUser = userService.로그인(loginDTO);
+        if (sessionUser == null) {
+            return Script.back("로그인 실패");
+        }
+        session.setAttribute("sessionUser", sessionUser);
+        return Script.href("/");
+    }
 }
