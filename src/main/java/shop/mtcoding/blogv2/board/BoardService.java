@@ -11,7 +11,7 @@ public class BoardService {
     private BoardRepository boardRepository;
 
     @Transactional
-    public void 글쓰기(BoardRequest.saveDTO saveDTO, int sessionUserId) {
+    public void 글쓰기(BoardRequest.SaveDTO saveDTO, int sessionUserId) {
         Board board = Board.builder()
                 .title(saveDTO.getTitle())
                 .content(saveDTO.getContent())

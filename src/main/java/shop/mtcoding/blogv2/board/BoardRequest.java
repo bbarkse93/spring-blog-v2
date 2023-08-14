@@ -6,7 +6,7 @@ import lombok.Setter;
 public class BoardRequest {
     @Getter
     @Setter
-    public static class saveDTO {
+    public static class SaveDTO {
         private String title;
         private String content;
     }

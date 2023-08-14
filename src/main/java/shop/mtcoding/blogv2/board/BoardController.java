@@ -21,7 +21,7 @@ public class BoardController {
     }
 
     @PostMapping("/board/save")
-    public String save(BoardRequest.saveDTO saveDTO) {
+    public String save(BoardRequest.SaveDTO saveDTO) {
         boardService.글쓰기(saveDTO, 1);
         return "redirect:/";
     }
