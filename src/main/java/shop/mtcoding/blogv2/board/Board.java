@@ -13,8 +13,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,6 +36,7 @@ public class Board {
 
     // FetchType.LAZY를 붙이면 user객체를 조회하지 않음
     // FetchType.EAGER을 붙이면 user객체를 조회 (default)
+    // ObjectMapper 사용할 때 EAGER로 변경해서 테스트
     @ManyToOne(fetch = FetchType.LAZY) // fetch는 프로잭션 하는 방식을 제공
     private User user; // 1+N
 
