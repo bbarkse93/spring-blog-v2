@@ -1,7 +1,5 @@
 package shop.mtcoding.blogv2.board;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 // 1. 데이터 받기 (V)
 // 2. 인증체크 (:TODO)
@@ -33,9 +34,12 @@ public class BoardController {
     }
 
     @GetMapping("/")
-    public String home(@RequestParam(defaultValue = "0") Integer page, HttpServletRequest request) {
-        List<Board> boardList = boardService.게시글목록보기();
-        request.setAttribute("boardList", boardList);
+    public String index(@RequestParam(defaultValue = "0") Integer page, HttpServletRequest request) {
+        Page<Board> boardPG = boardService.게시글목록보기(page);
+        request.setAttribute("boardPG", boardPG);
+        request.setAttribute("prevPage", boardPG.getNumber() - 1);
+        request.setAttribute("nextPage", boardPG.getNumber() + 1);
         return "index";
+
     }
 }
