@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,8 +34,10 @@ public class Board {
     @Column(nullable = true, length = 10000)
     private String content;
 
-    @ManyToOne
-    private User user;
+    // FetchType.LAZY를 붙이면 user객체를 조회하지 않음
+    // FetchType.EAGER을 붙이면 user객체를 조회 (default)
+    @ManyToOne(fetch = FetchType.LAZY) // fetch는 프로잭션 하는 방식을 제공
+    private User user; // 1+N
 
     @CreationTimestamp // 인서트 될 때 자동으로 시간을 입력
     private Timestamp createdAt;
