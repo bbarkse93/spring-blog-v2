@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import shop.mtcoding.blogv2.user.User;
 
+// Service의 책임
+// 핵심로직 처리, 트랜잭션 관리, 예외 처리
 @Service
 public class BoardService {
     @Autowired
@@ -29,5 +31,9 @@ public class BoardService {
     public Page<Board> 게시글목록보기(Integer page) {
         Pageable pageable = PageRequest.of(page, 3, Sort.Direction.DESC, "id");
         return boardRepository.findAll(pageable);
+    }
+
+    public Board 상세보기(Integer id) {
+        return boardRepository.findById(id).get();
     }
 }
