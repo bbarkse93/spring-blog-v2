@@ -1,6 +1,6 @@
 package shop.mtcoding.blogv2.board;
 
-import java.util.Optional;
+import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,9 @@ public class BoardRepositoryTest {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private EntityManager em;
 
     @Test
     public void save_test() {
@@ -30,11 +33,25 @@ public class BoardRepositoryTest {
         System.out.println("id: " + board.getUser().getId());
     }
 
+    // 상세보기 test
+    // @Test
+    // public void findById_test() {
+    // Optional<Board> boardOP = boardRepository.findById(5);
+    // if (boardOP.isPresent()) {
+    // System.out.println("테스트: board가 있습니다.");
+    // }
+    // }
+
+    // 글수정 test
     @Test
     public void findById_test() {
-        Optional<Board> boardOP = boardRepository.findById(5);
-        if (boardOP.isPresent()) {
-            System.out.println("테스트: board가 있습니다.");
-        }
+        System.out.println("업데이트 테스트");
+        Board board = boardRepository.findById(5).get();
+        board.setTitle("제목 변경");
+        board.setContent("내용 변경");
+        em.flush();
+        System.out.println("변경된 값");
+        System.out.println(board.getTitle());
+        System.out.println(board.getContent());
     }
 }

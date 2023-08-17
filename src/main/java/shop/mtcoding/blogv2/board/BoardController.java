@@ -48,4 +48,24 @@ public class BoardController {
         return "board/detail";
     }
 
+    @GetMapping("/board/{id}/updateForm")
+    public String updateForm(@PathVariable Integer id, Model model) {
+        Board boardUpdate = boardService.수정페이지(id);
+        model.addAttribute("boardUpdate", boardUpdate);
+        return "board/updateForm";
+    }
+
+    @PostMapping("/board/{id}/update")
+    public String update(@PathVariable Integer id, BoardRequest.UpdateDTO updateDTO) {
+        // body, where 데이터, session값 convention 설정 (where, body, session 순)
+        boardService.글수정(id, updateDTO);
+        return "redirect:/board/{id}";
+    }
+
+    @PostMapping("/board/{id}/delete")
+    public String delete(@PathVariable Integer id) {
+        boardService.글삭제(id);
+        return "redirect:/";
+    }
+
 }

@@ -36,4 +36,22 @@ public class BoardService {
     public Board 상세보기(Integer id) {
         return boardRepository.findById(id).get();
     }
+
+    public Board 수정페이지(Integer id) {
+        return boardRepository.findById(id).get();
+    }
+
+    @Transactional
+    public Board 글수정(Integer id, BoardRequest.UpdateDTO updateDTO) {
+        Board board = boardRepository.findById(id).get();
+        board.setTitle(updateDTO.getTitle());
+        board.setContent(updateDTO.getContent());
+        return board;
+    }
+
+    @Transactional
+    public void 글삭제(Integer id) {
+        boardRepository.deleteById(id);
+    }
+
 }
