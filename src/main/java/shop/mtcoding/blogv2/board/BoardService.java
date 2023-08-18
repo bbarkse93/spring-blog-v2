@@ -1,5 +1,7 @@
 package shop.mtcoding.blogv2.board;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +36,12 @@ public class BoardService {
     }
 
     public Board 상세보기(Integer id) {
-        return boardRepository.findById(id).get();
+        Optional<Board> boardOP = boardRepository.findById(id);
+        if (boardOP.isPresent()) {
+            return boardOP.get();
+        } else {
+            throw new RuntimeException(id + "번을 찾을 수 없습니다.");
+        }
     }
 
     public Board 수정페이지(Integer id) {
@@ -42,16 +49,24 @@ public class BoardService {
     }
 
     @Transactional
-    public Board 글수정(Integer id, BoardRequest.UpdateDTO updateDTO) {
-        Board board = boardRepository.findById(id).get();
-        board.setTitle(updateDTO.getTitle());
-        board.setContent(updateDTO.getContent());
-        return board;
+    public void 글수정(Integer id, BoardRequest.UpdateDTO updateDTO) {
+        Optional<Board> boardOP = boardRepository.findById(id);
+        if (boardOP.isPresent()) {
+            Board board = boardOP.get();
+            board.setTitle(updateDTO.getTitle());
+            board.setContent(updateDTO.getContent());
+        } else {
+            new RuntimeException(id + "번을 찾을 수 없습니다.");
+        }
     }
 
     @Transactional
     public void 글삭제(Integer id) {
-        boardRepository.deleteById(id);
+        try {
+            boardRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new RuntimeException(id + "번은 없어요");
+        }
     }
 
 }
