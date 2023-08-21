@@ -24,6 +24,9 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
+    @Autowired
+    private BoardRepository boardRepository;
+
     @GetMapping("/board/saveForm")
     public String saveForm() {
         return "board/saveForm";
@@ -49,6 +52,12 @@ public class BoardController {
         Board board = boardService.상세보기(id);
         model.addAttribute("board", board);
         return "board/detail";
+    }
+
+    @GetMapping("test/board/{id}")
+    public @ResponseBody Board tsetDetail(@PathVariable Integer id) {
+        Board board = boardRepository.mFindByIdJoinRepliesInUser(id).get();
+        return board;
     }
 
     @GetMapping("/board/{id}/updateForm")
