@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import shop.mtcoding.blogv2._core.error.ex.MyApiException;
+import shop.mtcoding.blogv2._core.util.ApiUtil;
 import shop.mtcoding.blogv2._core.util.Script;
 
 @Controller
@@ -31,6 +34,17 @@ public class UserController {
     public String join(UserRequest.JoinDTO joinDTO) {
         userService.회원가입(joinDTO); // Service에게 핵심로직 위임
         return "user/loginForm"; // persist 초기화
+    }
+
+    @GetMapping("/api/check")
+    public @ResponseBody ApiUtil<String> check(@RequestParam String username) {
+        User user = userService.중복체크(username);
+
+        if (user != null) {
+            throw new MyApiException("이미 사용 중인 유저네임 입니다.");
+        }
+        return new ApiUtil<String>(true, "사용가능한 유저네임 입니다.");
+
     }
 
     @GetMapping("/loginForm")

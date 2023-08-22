@@ -28,6 +28,11 @@ public class UserService {
         userRepository.save(user); // em.persist
     }
 
+    public User 중복체크(String username) {
+        User user = userRepository.findByUsername(username);
+        return user;
+    }
+
     public User 로그인(LoginDTO loginDTO) {
         User user = userRepository.findByUsername(loginDTO.getUsername());
         // 1. 유저네임 검증
