@@ -8,11 +8,11 @@ import lombok.Setter;
 @Setter
 // 응답의 타입이 확실하지 않아서 제네릭으로 응답
 public class ApiUtil<T> {
-    private boolean sucuess; // true
+    private boolean success; // true
     private T data; // 댓글쓰기 성공
 
-    public ApiUtil(boolean sucuess, T data) {
-        this.sucuess = sucuess;
+    public ApiUtil(boolean success, T data) {
+        this.success = success;
         this.data = data;
     }
 }

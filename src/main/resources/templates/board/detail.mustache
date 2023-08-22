@@ -31,34 +31,6 @@
             </div>
             </form>
         </div>
-        <script>
-            async function saveReply() {
-                let requestBody = {
-                    boardId: document.querySelector("#boardId").value,
-                    comment: document.querySelector("#comment").value
-                };
-
-                console.log(requestBody);
-                
-                let response = await fetch("/api/reply/save",{
-                    method:"post",
-                    headers:{
-                        "content-Type":"application/json"
-                    },
-                    body: JSON.stringify(requestBody)
-                });
-
-                let responseBody = await response.json();
-                console.log(responseBody);
-
-                if(requestBody.sucuess){
-                    location.reload(); // SSR
-                }else{
-                    alert(responseBody.data);
-                }
-            }
-
-        </script>
 
         <!-- 댓글목록 -->
         <div class="card-footer">
@@ -89,9 +61,9 @@
         
         let responseBody = await response.json();
         
-        if(responseBody.sucuess){
+        if (responseBody.success){
             location.reload();
-        }else{
+        } else {
             alert(responseBody.data);
         }
     }
@@ -112,7 +84,7 @@
 
         let responseBody = await response.json();
 
-        if(requestBody.sucuess){
+        if(responseBody.success){
             location.reload(); // SSR
         }else{
             alert(responseBody.data);
