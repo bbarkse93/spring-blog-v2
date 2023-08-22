@@ -41,9 +41,6 @@ public class UserController {
     @PostMapping("/login")
     public @ResponseBody String login(UserRequest.LoginDTO loginDTO) {
         User sessionUser = userService.로그인(loginDTO);
-        if (sessionUser == null) {
-            return Script.back("로그인 실패");
-        }
         session.setAttribute("sessionUser", sessionUser);
         return Script.href("/");
     }

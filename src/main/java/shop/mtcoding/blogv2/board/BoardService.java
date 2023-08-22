@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import shop.mtcoding.blogv2._core.error.ex.MyException;
 import shop.mtcoding.blogv2.user.User;
 
 // Service의 책임
@@ -40,7 +41,7 @@ public class BoardService {
         if (boardOP.isPresent()) {
             return boardOP.get();
         } else {
-            throw new RuntimeException(id + "번을 찾을 수 없습니다.");
+            throw new MyException(id + "번을 찾을 수 없습니다.");
         }
     }
 
@@ -56,7 +57,7 @@ public class BoardService {
             board.setTitle(updateDTO.getTitle());
             board.setContent(updateDTO.getContent());
         } else {
-            new RuntimeException(id + "번을 찾을 수 없습니다.");
+            new MyException(id + "번을 찾을 수 없습니다.");
         }
     }
 
@@ -65,7 +66,7 @@ public class BoardService {
         try {
             boardRepository.deleteById(id);
         } catch (Exception e) {
-            throw new RuntimeException(id + "번은 없어요");
+            throw new MyException(id + "번은 없어요");
         }
     }
 
