@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -51,7 +52,7 @@ public class Board {
     // ManyToOne은 기본전략이 EAGER전략
     // OneToMany는 기본전략이 LAZY전략
     @JsonIgnoreProperties({ "board" }) // JsonIgnore에서 불필요한 필드만 무시하는 거
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY) // 얘는 포린키가 아니에여
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.ALL) // 얘는 포린키가 아니에여
     private List<Reply> replies = new ArrayList<>();
 
     @CreationTimestamp // 인서트 될 때 자동으로 시간을 입력

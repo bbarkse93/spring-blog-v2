@@ -1,6 +1,7 @@
 package shop.mtcoding.blogv2.board;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import shop.mtcoding.blogv2._core.error.ex.MyException;
 import shop.mtcoding.blogv2._core.util.Script;
+import shop.mtcoding.blogv2.user.User;
 
 // 1. 데이터 받기 (V)
 // 2. 인증체크 (:TODO)
@@ -26,6 +29,9 @@ public class BoardController {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private HttpSession session;
 
     @GetMapping("/board/saveForm")
     public String saveForm() {
@@ -76,6 +82,12 @@ public class BoardController {
 
     @PostMapping("/board/{id}/delete")
     public @ResponseBody String delete(@PathVariable Integer id) {
+
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if (sessionUser == null) {
+            throw new MyException("인증되지 않았습니다.");
+        }
+
         boardService.글삭제(id);
         return Script.href("/");
     }
