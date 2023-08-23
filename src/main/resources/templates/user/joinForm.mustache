@@ -4,45 +4,27 @@
   <div class="card">
     <div class="card-header"><b>회원가입을 해주세요</b></div>
     <div class="card-body">
-      <form action="/join" method="post">
+      <form action="/join" method="post" enctype="multipart/form-data">
         <div class="mb-3">
-          <input
-            type="text"
-            id="username"
-            class="form-control"
-            placeholder="Enter username"
-            name="username"
-          />
-          <button type="button" class="btn btn-warning" onclick="userCheck()">
-            중복체크
-          </button>
+          <input type="text" id="username" class="form-control" placeholder="Enter username" name="username"/>
+          <button type="button" class="btn btn-warning" onclick="userCheck()">중복체크</button>
         </div>
         <div class="mb-3">
-          <input
-            type="password"
-            class="form-control"
-            placeholder="Enter password"
-            name="password"
-          />
+          <input type="password" class="form-control" placeholder="Enter password" name="password"/>
         </div>
         <div class="mb-3">
-          <input
-            type="email"
-            class="form-control"
-            placeholder="Enter email"
-            name="email"
-          />
+          <input type="email" class="form-control" placeholder="Enter email" name="email"/>
         </div>
-        <button id="btnJoin" type="submit" class="btn btn-primary form-control">
-          회원가입
-        </button>
+        <div class="mb-3">
+          <input type="file" class="form-control" placeholder="Enter file" name="pic"/>
+        </div>
+        <button id="btnJoin" type="submit" class="btn btn-primary form-control">회원가입</button>
       </form>
     </div>
   </div>
 </div>
-<script>
-  let userNameSameCheck = false;
 
+<script>
   async function userCheck() {
     let username = document.querySelector("#username").value;
 
@@ -51,10 +33,10 @@
     let responseBody = await response.json();
     console.log("responseBody: " + responseBody);
     if (responseBody.success) {
-      responseBody.success = true;
+      
       alert(responseBody.data);
     } else {
-      responseBody.success = false;
+      
       alert(responseBody.data);
     }
   }
