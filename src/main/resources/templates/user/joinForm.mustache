@@ -25,6 +25,19 @@
 </div>
 
 <script>
+  function userCheck2() {
+    let username = document.querySelector("#username").value;
+
+    fetch(`/api/check?username=${username}`).then(response=> response.json()).then(responseBody => {
+      if (responseBody.success) {
+      alert(responseBody.data);
+    } else {
+      alert(responseBody.data);
+    }
+    });
+  }
+
+
   async function userCheck() {
     let username = document.querySelector("#username").value;
 
@@ -33,10 +46,8 @@
     let responseBody = await response.json();
     console.log("responseBody: " + responseBody);
     if (responseBody.success) {
-      
       alert(responseBody.data);
     } else {
-      
       alert(responseBody.data);
     }
   }

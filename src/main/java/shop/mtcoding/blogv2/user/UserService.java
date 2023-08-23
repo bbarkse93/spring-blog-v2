@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import shop.mtcoding.blogv2._core.error.ex.MyApiException;
 import shop.mtcoding.blogv2._core.error.ex.MyException;
-import shop.mtcoding.blogv2._core.util.ApiUtil;
 import shop.mtcoding.blogv2._core.vo.MyPath;
 import shop.mtcoding.blogv2.user.UserRequest.JoinDTO;
 import shop.mtcoding.blogv2.user.UserRequest.LoginDTO;
@@ -51,12 +50,11 @@ public class UserService {
         userRepository.save(user); // em.persist
     }
 
-    public ApiUtil<String> 중복체크(String username) {
+    public void 중복체크(String username) {
         User user = userRepository.findByUsername(username);
         if (user != null) {
             throw new MyApiException("이미 사용 중인 유저네임 입니다.");
         }
-        return new ApiUtil<String>(true, "사용가능한 유저네임 입니다.");
 
     }
 
@@ -96,11 +94,25 @@ public class UserService {
     @Transactional
     public User 회원수정(UpdateDTO updateDTO, Integer id) {
 
+        UUID uuid = UUID.randomUUID(); // 랜덤한 해시값을 만들어줌
+        String fileName = uuid + "_" + updateDTO.getPic().getOriginalFilename();
+        System.out.println("fileName : " + fileName);
+
+        // 프로젝트 실행 파일변경 -> blogv2-1.0.jar
+        // 해당 실행파일 경로에 images 폴더가 필요함
+        Path filePath = Paths.get(MyPath.IMG_PATH + fileName);
+        try {
+            Files.write(filePath, updateDTO.getPic().getBytes());
+        } catch (Exception e) {
+            throw new MyException(e.getMessage());
+        }
+
         // 1. 조회 (영속화)
         User user = userRepository.findById(id).get();
 
         // 2. 변경
         user.setPassword(updateDTO.getPassword());
+        user.setPicUrl(fileName);
 
         return user;
     } // 3. Flush

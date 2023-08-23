@@ -31,9 +31,10 @@ public class UserController {
     // M - V - C
     @PostMapping("/join")
     public String join(UserRequest.JoinDTO joinDTO) {
-        System.out.println("OriginalFilename: " + joinDTO.getPic().getOriginalFilename());
-        System.out.println("Size: " + joinDTO.getPic().getSize());
-        System.out.println("ContentType: " + joinDTO.getPic().getContentType());
+        // System.out.println("OriginalFilename: " +
+        // joinDTO.getPic().getOriginalFilename());
+        // System.out.println("Size: " + joinDTO.getPic().getSize());
+        // System.out.println("ContentType: " + joinDTO.getPic().getContentType());
 
         userService.회원가입(joinDTO); // Service에게 핵심로직 위임
         return "user/loginForm"; // persist 초기화
@@ -41,8 +42,9 @@ public class UserController {
 
     @GetMapping("/api/check")
     public @ResponseBody ApiUtil<String> check(@RequestParam String username) {
-        return userService.중복체크(username);
+        userService.중복체크(username);
 
+        return new ApiUtil<String>(true, "사용가능한 유저네임 입니다.");
     }
 
     @GetMapping("/loginForm")
